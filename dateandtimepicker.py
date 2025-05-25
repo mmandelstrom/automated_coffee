@@ -9,7 +9,6 @@ class DateAndTimePicker():
         self.selected_datetime = None #Value that will be returned and used to activate plug
         self.root = tk.Tk()
 
-
     def display(self):
         #Date selector
         current_date = datetime.today()
@@ -30,15 +29,10 @@ class DateAndTimePicker():
             hour = time_picker.hours() #Get hour
             minute = time_picker.minutes() #Get minute
             self.selected_datetime = datetime.strptime(f"{date} {hour}:{minute}", "%Y-%m-%d %H:%M") #Combine and save
-
+            self.root.quit()
             self.root.destroy()
 
         tk.Button(self.root, text="Submit", command=submit).pack()
         self.root.mainloop()
-
         return self.selected_datetime
-
-
-picker = DateAndTimePicker()
-valt_datum_tid = picker.display()
-print(valt_datum_tid)
+    

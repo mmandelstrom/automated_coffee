@@ -43,7 +43,3 @@ class Plug():
                 print("Device was powered off")
             except requests.exceptions.RequestException:
                 return None
-
-
-p = Plug()
-p.power_off()
