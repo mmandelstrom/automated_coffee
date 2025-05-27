@@ -28,7 +28,7 @@ class Plug():
         else:
             try:
                 r = requests.get(f"http://{device_ip}/rpc/Switch.Set?id=0&on=true", timeout=3)
-                self._running = self._get_status
+                self._running = self._get_status()
                 print("Device was turned on")
             except requests.exceptions.RequestException:
                 return None
@@ -39,7 +39,7 @@ class Plug():
         else:
             try:
                 r = requests.get(f"http://{device_ip}/rpc/Switch.Set?id=0&on=false", timeout=3)
-                self._running = self._get_status
+                self._running = self._get_status()
                 print("Device was powered off")
             except requests.exceptions.RequestException:
                 return None
