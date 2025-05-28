@@ -1,16 +1,17 @@
 #This file will hold calendar and related functions
-from datetime import datetime
+from datetime import datetime, timedelta
 from tkinter import ttk
 import tkinter as tk
 from tkcalendar import Calendar
 from tktimepicker import SpinTimePickerModern, constants
 
 class DateAndTimePicker():
-    def __init__(self):
-        self.selected_datetime = None #Value that will be returned and used to activate plug
+    def __init__(self, terminal=False):
+        self.selected_datetime = {}
         self.root = tk.Tk()
+            
 
-    def display(self):
+    def gui(self):
         #Date selector
         current_date = datetime.today()
         style = ttk.Style(self.root)
@@ -26,22 +27,35 @@ class DateAndTimePicker():
         calendar.pack(pady=5)
         
         #Time selector
-        tk.Label(self.root, text="Select time:").pack(pady=10)
+        tk.Label(self.root, text="Select time:").pack(ipadx=100)
         time_picker = SpinTimePickerModern(self.root) #Create clock
         time_picker.addAll(constants.HOURS24)
         time_picker.pack(pady=5)
 
+
         def submit():
+            self.root.after(0, self.root.destroy)
+
+        def add_to_schedule():
             date = calendar.get_date() #Get date
             hour = time_picker.hours() #Get hour
             minute = time_picker.minutes() #Get minute
-            self.selected_datetime = datetime.strptime(f"{date} {hour}:{minute}", "%Y-%m-%d %H:%M") #Combine and saves
-            if self.selected_datetime < datetime.now(): #Handle case where user input a time that has passed
-                print("Time chosen is in the past, please chose a new time")
-            else:
-                self.root.after(0, self.root.destroy)
+            date_time = datetime.strptime(f"{date} {hour}:{minute}", "%Y-%m-%d %H:%M")
+            brew_duration = timedelta(minutes=10)
+            if not self.selected_datetime:
+                if date_time < datetime.now():
+                    print("Time chosen is in the past, please chose a new time")
+                else:
+                    self.selected_datetime[date_time] = False
+            
+            
+            
+                    
+            print(f"Added {date_time} to the schedule, add more times or use submit to close calendar")
             
 
-        tk.Button(self.root, text="Submit", command=submit).pack(pady=10)
+        tk.Button(self.root, text="Add to schedule", command=add_to_schedule).pack()
+        tk.Button(self.root, text="Submit", command=submit).pack(pady=15)
+        
         self.root.mainloop()
         return self.selected_datetime

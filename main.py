@@ -2,8 +2,9 @@ from plug import *
 from dateandtimepicker import *
 from datetime import datetime
 import time
+from terminal_input import *
 
-p = Plug() 
+p = Plug()
 
 print("Would you like to use GUI or terminal to scheudle your coffee?")
 
@@ -13,8 +14,7 @@ while True:
 
     if user_input.lower() == "gui":
         datetime_picker = DateAndTimePicker()
-        user_selected_datetime = datetime_picker.display()
-
+        user_selected_datetime = datetime_picker.gui()
         try:
             datetime_picker.root.update() #Workaround to solve calendar not closing after clicking submit. Eventloop got blocked by while loop
         except tk.TclError:
@@ -22,9 +22,7 @@ while True:
         break
 
     elif user_input.lower() == "terminal":
-        print("Please enter date and time in this format: YYYY-MM-DD HH:MM")
-        user_datetime = input()
-        user_selected_datetime = datetime.strptime(f"{user_datetime}", "%Y-%m-%d %H:%M")
+        user_selected_datetime = terminal_user_input()
         break
 
     else:
@@ -32,16 +30,17 @@ while True:
         continue
 
     
-
-print(f"User time: {user_selected_datetime}")
+for key, value in user_selected_datetime.items():
+    print(f"User time: {key}")
 print(f"Current time: {datetime.now()}")
 
-while user_selected_datetime >= datetime.now():
+while True:
+    for key, value in user_selected_datetime.items():
+        if key <= datetime.now() and value == False:
+            user_selected_datetime[key] = True
+            p.power_on()
+            time.sleep(600)
+            p.power_off()
     time.sleep(1)
-
-""" Need to implement full schedule using dict with brewed/not brewed values
-"""
-
-p.power_on()
-time.sleep(15)
-p.power_off()
+    if False not in user_selected_datetime.values():
+        break
