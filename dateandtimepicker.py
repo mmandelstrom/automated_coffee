@@ -1,5 +1,5 @@
 #This file will hold calendar and related functions
-from datetime import datetime, timedelta
+from datetime import datetime
 from tkinter import ttk
 import tkinter as tk
 from tkcalendar import Calendar
@@ -41,17 +41,11 @@ class DateAndTimePicker():
             hour = time_picker.hours() #Get hour
             minute = time_picker.minutes() #Get minute
             date_time = datetime.strptime(f"{date} {hour}:{minute}", "%Y-%m-%d %H:%M")
-            brew_duration = timedelta(minutes=10)
-            if not self.selected_datetime:
-                if date_time < datetime.now():
-                    print("Time chosen is in the past, please chose a new time")
-                else:
-                    self.selected_datetime[date_time] = False
-            
-            
-            
-                    
-            print(f"Added {date_time} to the schedule, add more times or use submit to close calendar")
+            if date_time < datetime.now():
+                print("Time chosen is in the past, please chose a new time")
+            else:
+                self.selected_datetime[date_time] = False
+                print(f"Added {date_time} to the schedule, add more times or use submit to close calendar")
             
 
         tk.Button(self.root, text="Add to schedule", command=add_to_schedule).pack()

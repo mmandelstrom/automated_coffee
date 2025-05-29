@@ -29,7 +29,7 @@ class Plug():
             try:
                 r = requests.get(f"http://{device_ip}/rpc/Switch.Set?id=0&on=true", timeout=3)
                 self._running = self._get_status()
-                print("Device was turned on")
+                print("Coffee brewing in progress...")
             except requests.exceptions.RequestException:
                 return None
 
@@ -40,6 +40,7 @@ class Plug():
             try:
                 r = requests.get(f"http://{device_ip}/rpc/Switch.Set?id=0&on=false", timeout=3)
                 self._running = self._get_status()
-                print("Device was powered off")
+                print("Brew finished!")
+                print("Enyoy your coffee!")
             except requests.exceptions.RequestException:
                 return None

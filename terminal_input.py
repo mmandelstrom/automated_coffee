@@ -11,8 +11,8 @@ def terminal_user_input():
             print("Time chosen is in the past, please input a new date and time")
         else:
             selected_datetime[date_time] = False
-        print(f"Added {date_time} to the schedule")
-        print("Click Y to input another time or any other key to submit: ")
+            print(f"Added {date_time} to the schedule")
+            print("Click Y to input another time or any other key to submit: ")
         user_cont = input()
         if user_cont.lower() == "y":
             continue

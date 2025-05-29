@@ -31,7 +31,7 @@ while True:
 
     
 for key, value in user_selected_datetime.items():
-    print(f"User time: {key}")
+    print(f"Scheduled time: {key}")
 print(f"Current time: {datetime.now()}")
 
 while True:
@@ -39,8 +39,8 @@ while True:
         if key <= datetime.now() and value == False:
             user_selected_datetime[key] = True
             p.power_on()
-            time.sleep(600)
+            time.sleep(600) #Value that determines how long it will be running in seconds
             p.power_off()
     time.sleep(1)
-    if False not in user_selected_datetime.values():
+    if False not in user_selected_datetime.values(): #No scheduled times left
         break
